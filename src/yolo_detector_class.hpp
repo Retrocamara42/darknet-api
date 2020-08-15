@@ -1,6 +1,5 @@
 #ifndef YOLO_V2_CLASS_HPP
 #define YOLO_V2_CLASS_HPP
-#define OPENCV
 
 #ifndef LIB_API
 #ifdef LIB_EXPORTS
@@ -19,6 +18,13 @@
 #endif
 
 #define C_SHARP_MAX_OBJECTS 1000
+
+struct det_obj {
+    unsigned int x, y, w, h;
+    float prob;
+    std::string name;
+};
+
 
 struct bbox_t {
     unsigned int x, y, w, h;       // (x,y) - top-left corner, (w, h) - width & height of bounded box
@@ -51,11 +57,11 @@ struct bbox_t_container {
 #include <iostream>
 #include <cmath>
 
-#ifdef OPENCV
+//#ifdef OPENCV
 #include <opencv2/opencv.hpp>            // C++
 #include <opencv2/highgui/highgui_c.h>   // C
 #include <opencv2/imgproc/imgproc_c.h>   // C
-#endif
+//#endif
 
 extern "C" LIB_API int init(const char *configurationFilename, const char *weightsFilename, int gpu);
 extern "C" LIB_API int detect_image(const char *filename, bbox_t_container &container);
@@ -106,7 +112,7 @@ public:
         return detection_boxes;
     }
 
-#ifdef OPENCV
+//#ifdef OPENCV
     std::vector<bbox_t> detect(cv::Mat mat, float thresh = 0.2, bool use_mean = false)
     {
         if(mat.data == NULL)
@@ -178,7 +184,7 @@ private:
         return out;
     }
 
-#endif    // OPENCV
+//#endif    // OPENCV
 
 public:
 
